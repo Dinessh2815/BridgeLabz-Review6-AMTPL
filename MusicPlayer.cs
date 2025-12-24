@@ -41,17 +41,71 @@
             {
                 Console.WriteLine("\nPlaying From last\n");
                 
-                
-                foreach(Song song in songs)
+                while (songs.Count > 0)
                 {
                     reverseSongs.Push(songs.Dequeue());
                 }
 
-
-                while (reverseSongs.Count >= 0)
+                while (reverseSongs.Count > 0)
                 {
                     Song song = reverseSongs.Pop();
                     Console.WriteLine($"Song : {song.Title} Duration : {song.Duration}");
+                }
+            }
+        }
+
+        class Node
+        {
+            public Song song;
+            public Node Next;
+            public Node Prev;
+
+            public Node(Song song1)
+            {
+                song = song1;
+                Next = null;
+                Prev = null;
+            }
+        }
+
+        class DoublyLL
+        {
+            Node head;
+            Node tail;
+
+            public void AddAtLast(Node newNode)
+            {
+                if (head == null)
+                {
+                    head = newNode;
+                    tail = newNode;
+                    return;
+                }   
+
+                tail.Next = newNode;
+                newNode.Prev = tail;
+                tail = newNode;
+            }
+
+            public void PlayFromFirstDD()
+            {
+                Console.WriteLine("\nPlaying from first (DoublyLL)\n");
+                Node temp = head;
+                while (temp != null)
+                {
+                    Console.WriteLine($"Song : {temp.song.Title} Duration : {temp.song.Duration}");
+                    temp = temp.Next;
+                }
+            }
+
+            public void PlayFromLastDD()
+            {
+                Console.WriteLine("\nPlayling from Last (DoublyLL)\n");
+                Node temp = tail;
+                while (temp != null)
+                {
+                    Console.WriteLine($"Song : {temp.song.Title} Duration : {temp.song.Duration}");
+                    temp = temp.Prev;
                 }
             }
         }
@@ -67,6 +121,15 @@
 
             playlist1.PlayFromStart();
             playlist1.PlayFromLast();
+
+            DoublyLL playlist2 = new DoublyLL();
+            playlist2.AddAtLast(new Node(new Song("song1")));
+            playlist2.AddAtLast(new Node(new Song("song2")));
+            playlist2.AddAtLast(new Node(new Song("song3")));
+            playlist2.AddAtLast(new Node(new Song("song4")));
+
+            playlist2.PlayFromFirstDD();
+            playlist2.PlayFromLastDD();
 
         }
     }
